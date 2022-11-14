@@ -25,7 +25,7 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(
         Collection, on_delete=models.PROTECT, related_name='products')
-    slug = models.CharField(max_length=255, default='-')
+    slug = models.SlugField(max_length=255, default='-')
     promotions = models.ManyToManyField(
         Promotion, related_name='products', blank=True)
 
