@@ -84,8 +84,15 @@ WSGI_APPLICATION = 'onlineshopping.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'onlineshopping',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'Rroot#12345',
+        'PORT': '3306',
     }
 }
 
