@@ -8,11 +8,17 @@ class Promotion(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
+    def __str__(self):
+        return self.description
+
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Product(models.Model):
@@ -28,6 +34,9 @@ class Product(models.Model):
     slug = models.SlugField(max_length=255, default='-')
     promotions = models.ManyToManyField(
         Promotion, related_name='products', blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Cart(models.Model):
@@ -82,6 +91,9 @@ class Order(models.Model):
         max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return str(self.id)
+
 
 class OrderItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
@@ -91,3 +103,6 @@ class OrderItem(models.Model):
         Order, on_delete=models.PROTECT, related_name='orderitems')
     product = models.ForeignKey(
         Product, on_delete=models.PROTECT, related_name='orderitems')
+
+    def __str__(self):
+        return str(self.order.id)
