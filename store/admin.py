@@ -31,6 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'price',
                     'collection', 'inventory', 'inventory_status']
     list_editable = ['price', 'inventory']
+    list_filter = ['collection', 'last_update']
     list_per_page = 10
 
     @admin.display(ordering='inventory')
@@ -68,7 +69,22 @@ class OrderAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class QuantityFilter(admin.SimpleListFilter):
+    title = 'quantity'
+    parameter_name = 'quantity'
+
+    def lookups(self, request, model_admin):
+        return [('<4', 'Low'), ('>=4', 'High')]
+
+    def queryset(self, request, queryset):
+        if self.value() == '<4':
+            return queryset.filter(quantity__lt=4)
+        if self.value() == '>=4':
+            return queryset.filter(quantity__gte=4)
+
+
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['quantity', 'unit_price', 'product']
+    list_filter = [QuantityFilter, 'product']
     list_per_page = 10
