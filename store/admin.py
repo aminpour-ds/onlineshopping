@@ -49,6 +49,8 @@ class CustomerAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_select_related = ['user']
     ordering = ['user__first_name', 'user__last_name']
+    search_fields = ['user__first_name__istartswith',
+                     'user__last_name__istartswith']
 
     @admin.display(ordering='orders_count')
     def orders_count(self, customer):
