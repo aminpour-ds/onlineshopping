@@ -19,9 +19,17 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'price', 'collection', 'inventory']
+    list_display = ['title', 'description', 'price',
+                    'collection', 'inventory', 'inventory_status']
     list_editable = ['price', 'inventory']
     list_per_page = 10
+
+    @admin.display(ordering='inventory')
+    def inventory_status(self, product):
+        if product.inventory < 10:
+            return 'LOW'
+        else:
+            return 'OK'
 
 
 @admin.register(models.Customer)
