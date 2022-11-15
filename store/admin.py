@@ -26,9 +26,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['phone', 'membership']
+    list_display = ['first_name', 'last_name', 'email', 'phone', 'membership']
     list_editable = ['membership']
     list_per_page = 10
+    list_select_related = ['user']
+    ordering = ['user__first_name', 'user__last_name']
 
 
 @admin.register(models.Order)
