@@ -14,7 +14,14 @@ class PromotionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['title', 'products_count']
+
+    @admin.display(ordering='products_count')
+    def products_count(self, collection):
+        return collection.products_count
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(products_count=Count('products'))
 
 
 @admin.register(models.Product)
