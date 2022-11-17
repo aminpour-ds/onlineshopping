@@ -15,6 +15,7 @@ class PromotionAdmin(admin.ModelAdmin):
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'products_count']
+    search_fields = ['title']
 
     @admin.display(ordering='products_count')
     def products_count(self, collection):
@@ -28,6 +29,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['collection']
     actions = ['clear_inventory']
     list_display = ['title', 'description', 'price',
                     'collection', 'inventory', 'inventory_status']
@@ -72,6 +74,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
     list_display = ['placed_at', 'payment_status', 'customer']
     list_per_page = 10
 
