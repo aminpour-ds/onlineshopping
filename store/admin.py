@@ -29,6 +29,8 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    fields = ['title', 'description', 'price',
+              'collection', 'inventory', 'slug', 'promotions']
     autocomplete_fields = ['collection']
     actions = ['clear_inventory']
     list_display = ['title', 'description', 'price',
