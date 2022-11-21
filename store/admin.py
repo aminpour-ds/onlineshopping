@@ -60,6 +60,7 @@ class CustomerAdmin(admin.ModelAdmin):
                     'email', 'phone', 'membership', 'orders_count']
     list_editable = ['membership']
     list_per_page = 10
+    autocomplete_fields = ['user']
     list_select_related = ['user']
     ordering = ['user__first_name', 'user__last_name']
     search_fields = ['user__first_name__istartswith',
