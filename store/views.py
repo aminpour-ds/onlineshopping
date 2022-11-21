@@ -7,6 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
 from .models import Collection, Product, Customer, Order, OrderItem, Cart, CartItem, Review
 from .filters import ProductFilter
+from .pagination import DefaultPagination
 
 
 class CollectionViewSet(ModelViewSet):
@@ -14,6 +15,7 @@ class CollectionViewSet(ModelViewSet):
     serializer_class = CollectionSerializer
     filter_backends = [SearchFilter]
     search_fields = ['title']
+    pagination_class = DefaultPagination
 
     def destroy(self, request, *args, **kwargs):
         if Product.objects.filter(collection_id=kwargs['pk']).count() > 0:
@@ -29,6 +31,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'last_update', 'inventory']
+    pagination_class = DefaultPagination
 
     def destroy(self, request, *args, **kwargs):
         if OrderItem.objects.filter(product_id=kwargs['pk']).count() > 0:
@@ -42,6 +45,7 @@ class ReviewViewSet(ModelViewSet):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['name', 'description']
     ordering_fields = ['date']
+    pagination_class = DefaultPagination
 
     def get_queryset(self):
         return Review.objects.filter(product_id=self.kwargs['product_pk'])
