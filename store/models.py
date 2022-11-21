@@ -127,6 +127,10 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+    class Meta: 
+        permissions = [
+            ('cancel_order', 'Can cancel order')
+        ]
 
 class OrderItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
