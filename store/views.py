@@ -7,9 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, \
-CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
+CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer, \
+UpdateOrderSerializer, CreateOrderSerializer
 from .models import Collection, Product, Customer, Order, OrderItem, Cart, CartItem, Review
 from .filters import ProductFilter
 from .pagination import DefaultPagination
@@ -101,3 +102,37 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class OrderViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+
+    def get_permissions(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
+
+    
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Order.objects.all()
+
+        user_id = self.request.user.id
+        customer_id = Customer.objects.only('id').get(user_id=user_id)
+        return Order.objects.filter(customer_id=customer_id)
+
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreateOrderSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateOrderSerializer
+        return OrderSerializer
+
+     
+    def create(self, request, *args, **kwargs):
+        serializer = CreateOrderSerializer(data=request.data, context={'user_id': self.request.user.id})
+        serializer.is_valid(raise_exception=True)
+        order = serializer.save()
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
