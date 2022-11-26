@@ -10,8 +10,8 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, \
 CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer, \
-UpdateOrderSerializer, CreateOrderSerializer
-from .models import Collection, Product, Customer, Order, OrderItem, Cart, CartItem, Review
+UpdateOrderSerializer, CreateOrderSerializer, ProductImageSerializer
+from .models import Collection, Product, Customer, Order, OrderItem, Cart, CartItem, Review, ProductImage
 from .filters import ProductFilter
 from .pagination import DefaultPagination
 from .permissions import IsAdminOrReadOnly
@@ -136,3 +136,13 @@ class OrderViewSet(ModelViewSet):
         order = serializer.save()
         serializer = OrderSerializer(order)
         return Response(serializer.data)
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
+
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
