@@ -17,6 +17,7 @@ django-cors-headers = "*"
 autopep8 = "*"
 pytest = "*"
 pytest-django = "*"
+model-bakery = "*"
 
 [requires]
 python_version = "3.10"
