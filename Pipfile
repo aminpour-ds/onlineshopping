@@ -12,6 +12,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
+whitenoise = "*"
 
 [dev-packages]
 autopep8 = "*"
