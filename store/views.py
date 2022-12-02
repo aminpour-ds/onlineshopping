@@ -34,7 +34,7 @@ class CollectionViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related('images').all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
@@ -115,11 +115,11 @@ class OrderViewSet(ModelViewSet):
     
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Order.objects.all()
+            return Order.objects.prefetch_related('orderitems').all()
 
         user_id = self.request.user.id
         customer_id = Customer.objects.only('id').get(user_id=user_id)
-        return Order.objects.filter(customer_id=customer_id)
+        return Order.objects.filter(customer_id=customer_id).prefetch_related('orderitems')
 
     
     def get_serializer_class(self):
