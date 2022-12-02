@@ -153,4 +153,6 @@ cython_debug/
 
 /static/
 /media/
+/assets/
 general.log
+store/static/
