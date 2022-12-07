@@ -1,5 +1,5 @@
 from rest_framework import status
-from store.models import Collection
+from store.models import Collection, Product
 from model_bakery import baker
 import pytest
 
@@ -28,7 +28,7 @@ class TestCreateCollection:
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
-    def test_if_user_is_admin_data_is_invalid_returns_403(self, create_collection, authenticate):
+    def test_if_user_is_admin_data_is_invalid_returns_400(self, create_collection, authenticate):
         authenticate(is_staff=True)
         
         response = create_collection({'title' : ''})
@@ -52,7 +52,7 @@ class TestRetrieveCollection:
     def test_if_collection_exists_returns_200(self, api_client):
         collection = baker.make(Collection)
         
-        response = api_client.get(f'/shopping/collections/{collection.id}/')
+        response = api_client.get(f'/store/collections/{collection.id}/')
         
         assert response.status_code == status.HTTP_200_OK
         assert response.data == {
@@ -63,4 +63,37 @@ class TestRetrieveCollection:
 
 
     def test_if_collection_does_not_exists_returns_404(self, api_client):
+        collection = baker.make(Collection)
+
+        response = api_client.get(f'/store/collections/{collection.id + 1}/')
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+
+@pytest.mark.django_db
+class TestUpdateCollection:
+    def test_if_user_is_anonymous_returns_401(self, api_client):
+        collection = baker.make(Collection)
+
+        response = api_client.put(f'/store/collections/{collection.id}/', {'title' : collection.title + 'a'})
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+    def test_if_user_is_not_admin_returns_403(self, authenticate):
         pass
+
+
+    def test_if_user_is_admin_data_is_invalid_returns_400(self, create_collection, authenticate):
+        pass
+
+
+    def test_if_user_is_admin_data_is_valid_returns_200(self, create_collection, authenticate):
+        pass
+
+
+
+@pytest.mark.django_db
+class TestDeleteCollection:
+    pass
