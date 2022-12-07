@@ -235,6 +235,10 @@ li.close-full-menu{
     padding-top: 2px;
 }
 
+.attr-nav > ul > li > a.shopping-bag-mycart{
+    color: #b0b435;
+}
+
 .attr-nav > ul > li.dropdown ul.dropdown-menu{
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
