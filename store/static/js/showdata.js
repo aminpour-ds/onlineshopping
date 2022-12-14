@@ -1,4 +1,5 @@
 window.onload = selected_items();
+const badge_element = document.getElementById("badge");
 
 
 function getCookie(name){
@@ -40,11 +41,45 @@ function set_cart_id(){
 }
 
 
+function get_cart_items(cart_id){              
+    url = '/api/carts/' + cart_id + '/';    
+    
+    const items = fetch(url, {
+        method: 'GET',
+        headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",        
+        },                
+    })
+    .then((res) => {
+        if (res.status == 200) {
+            return res.json();
+        } else {
+            throw Error(res.statusText);
+        }
+    })
+    .catch((err) => {                    
+        console.log(err);
+    });
+
+    const ret_items = async () => {
+        const a = await items;
+        return a;
+    };
+    
+    ret_items().then(function(result) {
+        badge_element.innerHTML = result.items.length;     
+    });
+}
+
+
 function selected_items() {
     let cart_id = getCookie("cart_id");
     
     if (!cart_id) {    // if cart_id doesn't exist then create it and save it in cookie
         set_cart_id();                
+    } else {           // if cart_id exists then return the cart_items
+        get_cart_items(cart_id);
     }
 }
 
