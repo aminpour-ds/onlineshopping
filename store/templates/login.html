@@ -1,0 +1,405 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Basic -->
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Site Metas -->
+    <title>PointCast</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />    
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}" />   
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />   
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />   
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />   
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />   
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <!-- Start Main Top -->
+    <div class="main-top">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="our-link">
+              <ul>
+                <li>
+                  <a href="my-account"><i class="fa fa-user s_color"></i> My Account</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="login-box">
+              <ul>
+                <li>
+                  <a href="login" class="login-register active">Login | Register</a>
+                </li>
+              </ul>
+            </div>            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- End Main Top -->
+
+    <!-- Start Main Top -->
+    <header class="main-header">
+      <!-- Start Navigation -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav"
+      >
+        <div class="container">
+          <!-- Start Header Navigation -->
+          <div class="navbar-header">
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbar-menu"
+              aria-controls="navbars-rs-food"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="/">
+              <img src="{% static 'images/logo.png' %}" class="logo" alt="" />
+          </a>
+          </div>
+          <!-- End Header Navigation -->
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="navbar-menu">
+            <ul
+              class="nav navbar-nav ml-auto"
+              data-in="fadeInDown"
+              data-out="fadeOutUp"
+            >
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="services">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about">About Us</a>
+              </li>                            
+              <li class="nav-item">
+                <a class="nav-link" href="your-comments">Your Comments</a>
+              </li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+
+          <!-- Start Atribute Navigation -->
+          <div class="attr-nav">
+            <ul>             
+              <li class="side-menu">
+                <a href="#">
+                  <i class="fa fa-shopping-bag"></i>
+                  <span class="badge">3</span>
+                  <p>My Cart</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- End Atribute Navigation -->
+        </div>
+        <!-- Start Side Menu -->
+        <div class="side">
+          <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+          <li class="cart-box">
+            <ul class="cart-list">
+
+              {% for service in services %} 
+
+              <li>
+                <a href="services/{{service.id}}" class="photo"
+                  ><img src={{service.images.0.image}} class="cart-thumb" alt=""   
+                /></a>
+                <h6><a href="services/{{service.id}}">Omnes ocurreret</a></h6>
+                <p>1x - <span class="price">${{service.price}}</span></p>
+              </li>
+
+              {% endfor %} 
+
+              <li class="total">
+                <a href="cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
+                <span class="float-right"><strong>Total</strong>: $180.00</span>
+              </li>
+            </ul>
+          </li>
+        </div>
+        <!-- End Side Menu -->
+      </nav>
+      <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <h2>Login</h2>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Login</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+      <div class="container">
+        <div class="row new-account-login">
+          <div class="col-sm-6 col-lg-6 mb-3">
+            <div class="title-left">
+              <h3>Account Login</h3>
+            </div>
+            <!-- <form class="mt-3 review-form-box" id="formLogin" action="login/" method="post"> -->
+            <form class="mt-3 review-form-box" id="formLogin" action="auth/jwt/create/" method="post">
+              {% csrf_token %}
+              <div class="form-row">
+                <!-- <div class="form-group col-md-6">
+                  <label for="InputEmail" class="mb-0">Email Address *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="InputEmail"
+                    name="email"                
+                  />
+                </div> -->
+                <div class="form-group col-md-6">
+                  <label for="InputUsername" class="mb-0">User Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputUsername"  
+                    name="username"              
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="InputPassword" class="mb-0">Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="InputPassword"
+                    name="password"                    
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn hvr-hover">Login</button>
+            </form>
+          </div>
+          <div class="col-sm-6 col-lg-6 mb-3">
+            <div class="title-left">
+              <h3>Create New Account</h3>
+            </div>
+            <!-- <form class="mt-3 review-form-box" id="formRegister" action="auth/users/" method="post"> -->
+            <form class="mt-3 review-form-box" id="formRegister" action="register/" method="post">
+              {% csrf_token %}
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="InputName" class="mb-0">First Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputName" 
+                    name="first_name"              
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="InputLastname" class="mb-0">Last Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputLastname"  
+                    name="last_name"              
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="InputUsername" class="mb-0">User Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputUsername"  
+                    name="username"              
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="InputEmail1" class="mb-0">Email Address *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="InputEmail1"
+                    name="email"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="InputPassword1" class="mb-0">Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="InputPassword1"
+                    name="password"
+                  />
+                </div>
+                <!-- <div class="form-group col-md-6">
+                  <label for="InputPassword2" class="mb-0">Confirm Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="InputPassword2"
+                    name="confirm_password"
+                  />
+                </div> -->
+              </div>
+              <button type="submit" class="btn hvr-hover">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Cart -->
+
+    <!-- Start Footer  -->
+    <footer>
+      <div class="footer-main">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+              <div class="footer-widget">
+                <h4>About PointCast</h4>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+              <div class="footer-link">
+                <h4>Information</h4>
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Customer Service</a></li>
+                  <li><a href="#">Our Sitemap</a></li>
+                  <li><a href="#">Terms &amp; Conditions</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Delivery Information</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+              <div class="footer-link-contact">
+                <h4>Contact Us</h4>
+                <ul>
+                  <li>
+                    <p>
+                      <i class="fas fa-map-marker-alt"></i>Address: Michael I.
+                      Days 3756 <br />Preston Street Wichita,<br />
+                      KS 67213
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i class="fas fa-phone-square"></i>Phone:
+                      <a href="tel:+1-888705770">+1-888 705 770</a>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i class="fas fa-envelope"></i>Email:
+                      <a href="mailto:contactinfo@gmail.com"
+                        >contactinfo@gmail.com</a
+                      >
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <div class="footer-top-box">
+                        <ul>
+                            <li>
+                                <a href="#" class="fab fa-linkedin" aria-hidden="true"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-whatsapp" aria-hidden="true"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-facebook" aria-hidden="true"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-telegram" aria-hidden="true"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-instagram" aria-hidden="true"></a>
+                            </li>
+                        </ul>
+                      </div>
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer  -->
+
+    <a href="#" id="back-to-top" title="Back to top" style="display: none"
+      >&uarr;</a
+    >
+
+    <!-- ALL JS FILES -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>   
+    <script src="{% static 'js/popper.min.js' %}"></script>    
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>   
+    <!-- ALL PLUGINS -->
+    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>  
+    <script src="{% static 'js/bootstrap-select.js' %}"></script>   
+    <script src="{% static 'js/inewsticker.js' %}"></script>   
+    <script src="{% static 'js/bootsnav.js' %}"></script>   
+    <script src="{% static 'js/images-loded.min.js' %}"></script>   
+    <script src="{% static 'js/isotope.min.js' %}"></script>    
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>   
+    <script src="{% static 'js/baguetteBox.min.js' %}"></script>   
+    <script src="{% static 'js/form-validator.min.js' %}"></script>  
+    <script src="{% static 'js/contact-form-script.js' %}"></script>   
+    <script src="{% static 'js/custom.js' %}"></script>   
+  </body>
+</html>
