@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework_nested import routers
-from . import views
+from . import views, viewshtml
 
 
 router = routers.DefaultRouter()
@@ -21,4 +21,13 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/', include(products_router.urls)),
     path('api/', include(carts_router.urls)),
+]
+
+# =======================================================================================================
+
+html_router = routers.DefaultRouter()
+html_router.register('services', viewshtml.Services)
+
+urlpatterns += [
+    path('', include(html_router.urls)),    
 ]
