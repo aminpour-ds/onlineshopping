@@ -1,5 +1,26 @@
 window.onload = selected_items();
 const badge_element = document.getElementById("badge");
+const cart_list_image = document.getElementById("cart-list-image");
+const cart_list_title = document.getElementById("cart-list-title");
+const cart_list_price = document.getElementById("cart-list-price");
+const cart_item_container = document.getElementById("cart-item-container");
+
+
+
+function block(item){
+    return '<li><a class="photo" href="/services/' + item.product.id + '"><img class="cart-thumb" alt="" src="' + item.product.images[0].image + '"/></a>' + 
+           '<h6><a href="/services/' + item.product.id + '">' + item.product.title + '</a></h6>' + 
+           '<p">' + item.quantity + 'x - ' + '<span class="price">$' + item.product.price + '</span></p></li>';         
+}              
+              
+
+function cart_list(result){
+    for (selitem=0; selitem<result.items.length; selitem++){
+        cart_item_container.innerHTML += block(result.items[selitem]);      
+    }     
+    cart_item_container.innerHTML += '<li class="total"><a href="/cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>' + 
+    '<span class="float-right" id="total-items-price"><strong>Total:</strong> $' + result.total_price + '</span></li>'
+}
 
 
 function getCookie(name){
@@ -69,6 +90,7 @@ function get_cart_items(cart_id){
     
     ret_items().then(function(result) {
         badge_element.innerHTML = result.items.length;     
+        cart_list(result);
     });
 }
 

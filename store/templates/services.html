@@ -135,25 +135,7 @@
         <div class="side">
           <a href="#" class="close-side"><i class="fa fa-times"></i></a>
           <li class="cart-box">
-            <ul class="cart-list">
-
-              {% for service in results %} 
-
-              <li>
-                <a href="services/{{service.id}}" class="photo"
-                  ><img src={{service.images.0.image}} class="cart-thumb" alt=""   
-                /></a>
-                <h6><a href="services/{{service.id}}">Omnes ocurreret</a></h6>
-                <p>1x - <span class="price">${{service.price}}</span></p>
-              </li>
-
-              {% endfor %} 
-
-              <li class="total">
-                <a href="cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                <span class="float-right"><strong>Total</strong>: $180.00</span>
-              </li>
-            </ul>
+            <ul class="cart-list" id="cart-item-container"></ul>
           </li>
         </div>
         <!-- End Side Menu -->
