@@ -140,6 +140,7 @@ function saveToken() {
         })
         .catch((err) => {                    
             console.log(err);
+            alert('User Name and Password are incorrect, try again!');
         });
     });            
 }
