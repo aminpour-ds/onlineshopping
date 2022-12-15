@@ -105,3 +105,41 @@ function selected_items() {
     }
 }
 
+
+// save the token that comming from server in SessionStorage of browser:
+function saveToken() {
+    const userinfo = {
+        input_username : document.querySelector("#InputUsername"),
+        input_password : document.querySelector("#InputPassword")            
+    };                          
+    addEventListener("click", async (e) => {                
+        e.preventDefault();
+  
+        await fetch('/auth/jwt/create/', {
+            method: 'POST',
+            headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            username: userinfo.input_username.value,
+            password: userinfo.input_password.value
+            }),                
+        })
+        .then((res) => {
+            if (res.status == 200) {
+                return res.json();
+            } else {
+                throw Error(res.statusText);
+            }
+        })
+        .then(data => {
+            sessionStorage.setItem("token", data.access);  
+            sessionStorage.setItem("refresh", data.refresh); 
+            window.location.assign("/");
+        })
+        .catch((err) => {                    
+            console.log(err);
+        });
+    });            
+}
