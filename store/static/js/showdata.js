@@ -143,3 +143,13 @@ function saveToken() {
         });
     });            
 }
+
+
+// delete the token from SessionStorage of browser for logout:
+function deleteToken() {      
+    if (sessionStorage.token) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("refresh");
+        window.location.assign("/");
+    };
+}

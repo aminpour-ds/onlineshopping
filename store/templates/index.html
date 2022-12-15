@@ -63,7 +63,7 @@
               <ul>
                 {% if user.is_authenticated %}
                 <li>
-                  <a href="/logout" class="login-register">Logout</a>
+                  <a href="" class="login-register" onclick=deleteToken()>Logout</a>
                 </li>
                 {% else %}
                 <li>
@@ -760,5 +760,6 @@
     <script src="{% static 'js/form-validator.min.js' %}"></script>  
     <script src="{% static 'js/contact-form-script.js' %}"></script>   
     <script src="{% static 'js/custom.js' %}"></script>   
+    <script src="{% static 'js/showdata.js' %}"></script> 
   </body>
 </html>
