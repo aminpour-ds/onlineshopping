@@ -28,6 +28,7 @@ urlpatterns = [
 
 html_router = routers.DefaultRouter()
 html_router.register('services', viewshtml.Services)
+html_router.register('', viewshtml.Index)
 
 urlpatterns += [
     path('', include(html_router.urls)),    

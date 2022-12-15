@@ -12,3 +12,8 @@ class Services(views.ProductViewSet):
             template_name = ['service-detail.html']
         return template_name
 
+
+class Index(views.ProductViewSet):    
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'index.html'
+
