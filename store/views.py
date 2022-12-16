@@ -106,6 +106,7 @@ class CustomerViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    pagination_class = DefaultPagination
 
     def get_permissions(self):
         if self.request.method in ['PATCH', 'DELETE']:
