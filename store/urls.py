@@ -33,4 +33,5 @@ html_router.register('', viewshtml.Index)
 urlpatterns += [
     path('', include(html_router.urls)),    
     path('login', TemplateView.as_view(template_name='login.html')),
+    path('my-account', TemplateView.as_view(template_name='my-account.html')),
 ]
