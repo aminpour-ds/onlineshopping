@@ -44,9 +44,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="our-link">
               <ul>
+                {% if user.is_authenticated %}              
                 <li>
-                  <a href="my-account"><i class="fa fa-user s_color active"></i> My Account</a>
+                  <a href="/my-account" class="active"><i class="fa fa-user s_color"></i> Hello, {{user.email}}</a>
                 </li>
+                {% else %}
+                <li>
+                  <a href="/login" class="active"><i class="fa fa-user s_color"></i> My Account</a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
@@ -54,9 +60,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="login-box">
               <ul>
+                {% if user.is_authenticated %}
                 <li>
-                  <a href="login" class="login-register">Login | Register</a>
+                  <a href="" class="login-register" onclick=deleteToken()>Logout</a>
                 </li>
+                {% else %}
+                <li>
+                  <a href="/login" class="login-register">Login | Register</a>
+                </li>
+                {% endif %}
               </ul>
             </div>            
           </div>
@@ -102,7 +114,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="services">Services</a>
               </li>
               <li class="nav-item">
@@ -121,7 +133,7 @@
               <li class="side-menu">
                 <a href="#">
                   <i class="fa fa-shopping-bag"></i>
-                  <span class="badge">3</span>
+                  <span class="badge" id="badge"></span>
                   <p>My Cart</p>
                 </a>
               </li>
@@ -133,25 +145,7 @@
         <div class="side">
           <a href="#" class="close-side"><i class="fa fa-times"></i></a>
           <li class="cart-box">
-            <ul class="cart-list">
-
-              {% for service in services %} 
-
-              <li>
-                <a href="services/{{service.id}}" class="photo"
-                  ><img src={{service.images.0.image}} class="cart-thumb" alt=""   
-                /></a>
-                <h6><a href="services/{{service.id}}">Omnes ocurreret</a></h6>
-                <p>1x - <span class="price">${{service.price}}</span></p>
-              </li>
-
-              {% endfor %} 
-
-              <li class="total">
-                <a href="cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                <span class="float-right"><strong>Total</strong>: $180.00</span>
-              </li>
-            </ul>
+            <ul class="cart-list" id="cart-item-container"></ul>
           </li>
         </div>
         <!-- End Side Menu -->
@@ -214,12 +208,12 @@
                     <a href="#"> <i class="fa fa-location-arrow"></i> </a>
                   </div>
                   <div class="service-desc">
-                    <h4>Your Addresses</h4>
-                    <p>Edit addresses for orders and gifts</p>
+                    <h4>Your Profile</h4>
+                    <p>Edit Photo, addresses for orders and gifts</p>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
             <div class="col-lg-4 col-md-12">
               <div class="account-box">
                 <div class="service-box">
@@ -227,128 +221,13 @@
                     <a href="#"> <i class="fa fa-credit-card"></i> </a>
                   </div>
                   <div class="service-desc">
-                    <h4>Payment options</h4>
-                    <p>Edit or add payment methods</p>
+                    <h4>Your Coupons</h4>
+                    <p>With first order you can have a coupon</p>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-              <div class="account-box">
-                <div class="service-box">
-                  <div class="service-icon">
-                    <a href="#"> <i class="fab fa-paypal"></i> </a>
-                  </div>
-                  <div class="service-desc">
-                    <h4>PayPal</h4>
-                    <p>View benefits and payment settings</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-              <div class="account-box">
-                <div class="service-box">
-                  <div class="service-icon">
-                    <a href="#"> <i class="fab fa-amazon"></i> </a>
-                  </div>
-                  <div class="service-desc">
-                    <h4>Amazon Pay balance</h4>
-                    <p>Add money to your balance</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bottom-box">
-            <div class="row">
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>Gold &amp; Diamond Jewellery</h4>
-                      <ul>
-                        <li><a href="#">Apps and more</a></li>
-                        <li><a href="#">Content and devices</a></li>
-                        <li><a href="#">Music settings</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>Handloom &amp; Handicraft Store</h4>
-                      <ul>
-                        <li><a href="#">Advertising preferences </a></li>
-                        <li><a href="#">Communication preferences</a></li>
-                        <li><a href="#">SMS alert preferences</a></li>
-                        <li><a href="#">Message center</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>The Designer Boutique</h4>
-                      <ul>
-                        <li><a href="#">Amazon Pay</a></li>
-                        <li><a href="#">Bank accounts for refunds</a></li>
-                        <li><a href="#">Coupons</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>Gift Boxes, Gift Tags, Greeting Cards</h4>
-                      <ul>
-                        <li><a href="#">Leave delivery feedback</a></li>
-                        <li><a href="#">Lists</a></li>
-                        <li><a href="#">Photo ID proofs</a></li>
-                        <li><a href="#">Profile</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>Other accounts</h4>
-                      <ul>
-                        <li><a href="#">Amazon Business registration</a></li>
-                        <li><a href="#">Seller account</a></li>
-                        <li><a href="#">Amazon Web Services</a></li>
-                        <li><a href="#">Login with Amazon</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-12">
-                <div class="account-box">
-                  <div class="service-box">
-                    <div class="service-desc">
-                      <h4>Shopping programs and rentals</h4>
-                      <ul>
-                        <li><a href="#">Subscribe &amp; Save</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </div>           
+          </div>          
         </div>
       </div>
     </div>
@@ -464,5 +343,6 @@
     <script src="{% static 'js/form-validator.min.js' %}"></script>  
     <script src="{% static 'js/contact-form-script.js' %}"></script>   
     <script src="{% static 'js/custom.js' %}"></script>   
+    <script src="{% static 'js/showdata.js' %}"></script> 
   </body>
 </html>
