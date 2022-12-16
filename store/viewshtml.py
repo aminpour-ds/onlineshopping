@@ -17,3 +17,8 @@ class Index(views.ProductViewSet):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'index.html'
 
+
+class Orders(views.OrderViewSet):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'orders.html'
+

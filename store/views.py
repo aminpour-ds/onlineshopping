@@ -106,6 +106,10 @@ class CustomerViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    # When serializers are run in read mode using many=True, the data structure coming out of them are lists. 
+    # The problem occurs when your pagination_class is set to None. with using pagination, the list of results 
+    # are wrapped up in an dict and sent to the renderer, so we can change context to dict and use TemplateHTMLRenderer
+    # to render a template. template.render(context, request=request) 
     pagination_class = DefaultPagination
 
     def get_permissions(self):
