@@ -2655,8 +2655,19 @@
 	border: none;
 }
 
+.full-size-of-container{
+    width: 100%;
+}
 
+.order-box-main{
+    padding: 70px 0px;
+}
 
+.underline-title{
+    font-size: 16px;
+    border-bottom: 3px solid #b0b435;
+    margin-bottom: 20px;
+}
 
 
 
