@@ -188,7 +188,7 @@
                     href="#{{ord.id}}"
                     role="button"
                     aria-expanded="false"
-                    >{{ord.placed_at|slice:":10"}} {{ord.placed_at|slice:"12:16"}} - Show detail</a>
+                    >{{ord.placed_at|slice:":10"}} {{ord.placed_at|slice:"12:16"}} - $ {{ord.total_price}} - Show detail</a>
                 </h5>
                 <div class="mt-3 collapse review-form-box" id={{ord.id}}>
                   <div class="row">
@@ -200,7 +200,7 @@
                             <th>Product Name</th>
                             <th>Price</th>
                             <th>Quantity</th> 
-                            <th>Date</th>                                                                      
+                            <th>Total</th>                                                                      
                           </thead>
                           <tbody>
                                          
@@ -218,9 +218,9 @@
                                 <td class="name-pr">
                                   <a>{{item.product.title}}</a>
                                 </td>
-                                <td class="price-pr">$ {{item.product.price}}</td>
+                                <td class="price-pr">$ {{item.unit_price}}</td>
                                 <td class="quantity-box">{{item.quantity}}</td>                       
-                                <td>{{ord.placed_at|slice:":10"}} {{ord.placed_at|slice:"12:16"}}</td>                                                                                       
+                                <td>$ {{item.total}}</td>                                                                                       
                               </tr>
                             {% endfor %}                                           
 
