@@ -22,3 +22,12 @@ class Orders(views.OrderViewSet):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'orders.html'
 
+
+class Cart(views.CartViewSet):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'cart.html'
+
+
+class CartItem(views.CartItemViewSet):
+    pass
+

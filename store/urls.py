@@ -29,7 +29,11 @@ urlpatterns = [
 html_router = routers.DefaultRouter()
 html_router.register('services', viewshtml.Services)
 html_router.register('orders', viewshtml.Orders, basename='orders')
+html_router.register('cart', viewshtml.Cart)
 html_router.register('', viewshtml.Index)
+
+cart_html_router = routers.NestedDefaultRouter(html_router, 'cart', lookup='cart')
+cart_html_router.register('items', viewshtml.CartItem, basename='cart-items')
 
 urlpatterns += [
     path('', include(html_router.urls)),    

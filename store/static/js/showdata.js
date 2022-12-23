@@ -4,6 +4,7 @@ const cart_list_image = document.getElementById("cart-list-image");
 const cart_list_title = document.getElementById("cart-list-title");
 const cart_list_price = document.getElementById("cart-list-price");
 const cart_item_container = document.getElementById("cart-item-container");
+const cart_item_url = document.getElementById("cart-item-url");
 
 
 
@@ -14,11 +15,11 @@ function block(item){
 }              
               
 
-function cart_list(result){
+function cart_list(result, cart_id){
     for (selitem=0; selitem<result.items.length; selitem++){
         cart_item_container.innerHTML += block(result.items[selitem]);      
     }     
-    cart_item_container.innerHTML += '<li class="total"><a href="/cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>' + 
+    cart_item_container.innerHTML += '<li class="total"><a href="/cart/' + cart_id + '" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>' + 
     '<span class="float-right" id="total-items-price"><strong>Total:</strong> $' + result.total_price + '</span></li>'
 }
 
@@ -69,7 +70,7 @@ function get_cart_items(cart_id){
         method: 'GET',
         headers: {
         Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",        
+        "Content-Type": "application/json",      
         },                
     })
     .then((res) => {
@@ -90,7 +91,7 @@ function get_cart_items(cart_id){
     
     ret_items().then(function(result) {
         badge_element.innerHTML = result.items.length;     
-        cart_list(result);
+        cart_list(result, cart_id);
     });
 }
 
@@ -105,6 +106,73 @@ function selected_items() {
     }
 }
 
+
+function delete_cart_item(item_id){   
+    let cart_id = getCookie("cart_id");           
+    url = '/api/carts/' + cart_id + '/items/' + item_id;    
+    
+    let deleteItem = fetch(url, {
+        method: 'DELETE',
+        headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",          
+        },                
+    })
+    .then((res) => {
+        if (res.status != 204) {
+            throw Error(res.statusText);
+        }
+    })
+    .catch((err) => {                    
+        console.log(err);
+    });
+
+    const page = async () => {
+        const a = await deleteItem;
+        return a;
+    };
+    
+    page().then(function(result) {
+        location.reload();
+    });
+}
+
+
+function update_cart(items){
+    let cart_id = getCookie("cart_id");     
+    url = '/api/carts/' + cart_id + '/items/';   
+    
+    const item = {
+        input_quantity : document.querySelector("#Inputquantity"),
+        product_id : items.product.id       
+    };                          
+    addEventListener("click", async (e) => {                
+        e.preventDefault();
+  
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                quantity: item.input_quantity.value,
+                product_id: item.product_id.value
+            }),                
+        })
+        .then((res) => {
+            if (res.status == 201) {
+                window.location.assign("/");
+            } else {
+                throw Error(res.statusText);
+            }
+        })
+        .catch((err) => {                    
+            console.log(err);
+            alert('Input values are incorrect, try again!');
+        });
+    });
+}
 
 // save the token that comming from server in SessionStorage of browser:
 function saveToken() {

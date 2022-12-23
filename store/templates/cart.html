@@ -44,9 +44,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="our-link">
               <ul>
+                {% if user.is_authenticated %}              
                 <li>
-                  <a href="my-account"><i class="fa fa-user s_color"></i> My Account</a>
+                  <a href="/my-account"><i class="fa fa-user s_color"></i> Hello, {{user.email}}</a>
                 </li>
+                {% else %}
+                <li>
+                  <a href="/login"><i class="fa fa-user s_color"></i> My Account</a>                  
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
@@ -54,9 +60,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="login-box">
               <ul>
+                {% if user.is_authenticated %}
                 <li>
-                  <a href="login" class="login-register">Login | Register</a>
+                  <a href="" class="login-register" onclick=deleteToken()>Logout</a>
                 </li>
+                {% else %}
+                <li>
+                  <a href="/login" class="login-register">Login | Register</a>
+                </li>
+                {% endif %}
               </ul>
             </div>            
           </div>
@@ -103,56 +115,37 @@
                 <a class="nav-link" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="services">Services</a>
+                <a class="nav-link" href="/services">Services</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about">About Us</a>
+                <a class="nav-link" href="/about">About Us</a>
               </li>                            
               <li class="nav-item">
-                <a class="nav-link" href="your-comments">Your Comments</a>
+                <a class="nav-link" href="/your-comments">Your Comments</a>
               </li>
             </ul>
           </div>
           <!-- /.navbar-collapse -->
 
-         <!-- Start Atribute Navigation -->
+          <!-- Start Atribute Navigation -->
           <div class="attr-nav">
             <ul>             
               <li class="side-menu">
                 <a href="#" class="shopping-bag-mycart">
                   <i class="fa fa-shopping-bag"></i>
-                  <span class="badge">3</span>
+                  <span class="badge" id="badge"></span>
                   <p>My Cart</p>
                 </a>
               </li>
             </ul>
           </div>
-        <!-- End Atribute Navigation -->
-
+          <!-- End Atribute Navigation -->
         </div>
         <!-- Start Side Menu -->
         <div class="side">
           <a href="#" class="close-side"><i class="fa fa-times"></i></a>
           <li class="cart-box">
-            <ul class="cart-list">
-
-              {% for service in services %} 
-
-              <li>
-                <a href="services/{{service.id}}" class="photo"
-                  ><img src={{service.images.0.image}} class="cart-thumb" alt=""   
-                /></a>
-                <h6><a href="services/{{service.id}}">Omnes ocurreret</a></h6>
-                <p>1x - <span class="price">${{service.price}}</span></p>
-              </li>
-
-              {% endfor %} 
-
-              <li class="total">
-                <a href="cart" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                <span class="float-right"><strong>Total</strong>: $180.00</span>
-              </li>
-            </ul>
+            <ul class="cart-list" id="cart-item-container"></ul>
           </li>
         </div>
         <!-- End Side Menu -->
@@ -195,111 +188,45 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for item in items %}
                   <tr>
                     <td class="thumbnail-img">
-                      <a href="#">
+                      <a href="/services/{{item.product.id}}">
                         <img
                           class="img-fluid"
-                          src="{% static 'images/img-pro-01.jpg' %}"    
+                          src={{item.product.images.0.image}}
                           alt=""
                         />
                       </a>
                     </td>
                     <td class="name-pr">
-                      <a href="#"> Lorem ipsum dolor sit amet </a>
+                      <a href="/services/{{item.product.id}}"> {{item.product.title}} </a>
                     </td>
                     <td class="price-pr">
-                      <p>$ 80.0</p>
+                      <p>$ {{item.product.price}}</p>
                     </td>
                     <td class="quantity-box">
                       <input
+                        id="Inputquantity"
                         type="number"
                         size="4"
-                        value="1"
+                        value={{item.quantity}}
                         min="0"
                         step="1"
                         class="c-input-text qty text"
                       />
                     </td>
                     <td class="total-pr">
-                      <p>$ 80.0</p>
+                      <p>$ {{item.total_price}}</p>
                     </td>
                     <td class="remove-pr">
-                      <a href="#">
+                      <a href="#" onclick=delete_cart_item({{item.id}})>
                         <i class="fas fa-times"></i>
                       </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td class="thumbnail-img">
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="{% static 'images/img-pro-02.jpg' %}"
-                          alt=""
-                        />
-                      </a>
-                    </td>
-                    <td class="name-pr">
-                      <a href="#"> Lorem ipsum dolor sit amet </a>
-                    </td>
-                    <td class="price-pr">
-                      <p>$ 60.0</p>
-                    </td>
-                    <td class="quantity-box">
-                      <input
-                        type="number"
-                        size="4"
-                        value="1"
-                        min="0"
-                        step="1"
-                        class="c-input-text qty text"
-                      />
-                    </td>
-                    <td class="total-pr">
-                      <p>$ 80.0</p>
-                    </td>
-                    <td class="remove-pr">
-                      <a href="#">
-                        <i class="fas fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="thumbnail-img">
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="{% static 'images/img-pro-03.jpg' %}"
-                          alt=""
-                        />
-                      </a>
-                    </td>
-                    <td class="name-pr">
-                      <a href="#"> Lorem ipsum dolor sit amet </a>
-                    </td>
-                    <td class="price-pr">
-                      <p>$ 30.0</p>
-                    </td>
-                    <td class="quantity-box">
-                      <input
-                        type="number"
-                        size="4"
-                        value="1"
-                        min="0"
-                        step="1"
-                        class="c-input-text qty text"
-                      />
-                    </td>
-                    <td class="total-pr">
-                      <p>$ 80.0</p>
-                    </td>
-                    <td class="remove-pr">
-                      <a href="#">
-                        <i class="fas fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
+                  {% endfor %}
+                
                 </tbody>
               </table>
             </div>
@@ -325,8 +252,8 @@
             </div>
           </div>
           <div class="col-lg-6 col-sm-6">
-            <div class="update-box">
-              <input value="Update Cart" type="submit" />
+            <div class="update-box">                            
+              <button class="update-cart" type="submit" onclick=update_cart()>Update Cart</button>              
             </div>
           </div>
         </div>
@@ -338,7 +265,7 @@
               <h3>Order summary</h3>
               <div class="d-flex">
                 <h4>Sub Total</h4>
-                <div class="ml-auto font-weight-bold">$ 130</div>
+                <div class="ml-auto font-weight-bold">$ {{total_price}}</div>
               </div>
               <div class="d-flex">
                 <h4>Discount</h4>
@@ -366,7 +293,7 @@
             </div>
           </div>
           <div class="col-12 d-flex shopping-box">
-            <a href="checkout" class="ml-auto btn hvr-hover">Checkout</a>
+            <a href="/checkout" class="ml-auto btn hvr-hover">Checkout</a>
           </div>
         </div>
       </div>
@@ -397,7 +324,7 @@
               <div class="footer-link">
                 <h4>Information</h4>
                 <ul>
-                  <li><a href="#">About Us</a></li>
+                  <li><a href="/about">About Us</a></li>
                   <li><a href="#">Customer Service</a></li>
                   <li><a href="#">Our Sitemap</a></li>
                   <li><a href="#">Terms &amp; Conditions</a></li>
@@ -483,5 +410,6 @@
    <script src="{% static 'js/form-validator.min.js' %}"></script>  
    <script src="{% static 'js/contact-form-script.js' %}"></script>   
    <script src="{% static 'js/custom.js' %}"></script>   
+   <script src="{% static 'js/showdata.js' %}"></script> 
   </body>
 </html>
